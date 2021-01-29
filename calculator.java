@@ -8,32 +8,32 @@ public class calculator {
 			if(input.equals("k")) {
 				continue;
 			}
-			System.out.println(processExpression(input));
+			System.out.println(recursiveAddStep(input));
 		}
 	}
 	
-	public static double processExpression(String expression) {
-		int a = 0;
-		int b = 0;
-		int i;
-		for(i = 0; 0 <= expression.charAt(i)-'0' && expression.charAt(i)-'0' <=9 ; i++) {
-			a = a*10+expression.charAt(i)-'0';
+	public static double recursiveAddStep(String expression) {
+		for(int i = 0; i < expression.length(); i++) {
+			if(expression.charAt(i)=='+') {
+				return recursiveMultiplyStep(expression.substring(0, i)) + recursiveAddStep(expression.substring(i+1, expression.length()));
+			}
+			if(expression.charAt(i)=='-') {
+				return recursiveMultiplyStep(expression.substring(0, i)) - recursiveAddStep(expression.substring(i+1, expression.length()));
+			}
 		}
-		int c = expression.charAt(i);
-		for(i++; i < expression.length(); i++) {
-			b = b*10 + expression.charAt(i)-'0';
+		return recursiveMultiplyStep(expression);
+	}
+	
+	public static double recursiveMultiplyStep(String expression) {
+		for(int i = 0; i < expression.length();i++) {
+			if(expression.charAt(i)=='*') {
+				return recursiveMultiplyStep(expression.substring(0, i)) * recursiveAddStep(expression.substring(i+1, expression.length()));
+			}
+			if(expression.charAt(i)=='/') {
+				return recursiveMultiplyStep(expression.substring(0, i)) / recursiveAddStep(expression.substring(i+1, expression.length()));
+			}
 		}
-		switch (c){
-		case '+':
-			return (a+b);
-		case '-':
-			return (a-b);
-		case '*':
-			return (a*b);
-		case '/':
-			return (a/b);
-		}
-		return 0;
+		return (Double.parseDouble(expression));
 	}
 	
 };
