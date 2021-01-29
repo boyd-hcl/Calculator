@@ -8,7 +8,7 @@ public class calculator {
 		}
 		int c = args[0].charAt(i);
 		for(i++; i < args[0].length(); i++) {
-			b = b*10 + args[0].charAt(i);
+			b = b*10 + args[0].charAt(i)-'0';
 		}
 		switch (c){
 		case '+':
